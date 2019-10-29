@@ -1,0 +1,16 @@
+// https://github.com/zchen9/code/issues/14
+{
+  "presets": [
+    "@babel/preset-env", // 转译 es6 es7 详见笔记
+    "@babel/preset-react" // 转译jsx语法
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    {
+      "corejs":false, 	// npm install --save @babel/runtime 默认值
+      "helpers":true,  // 默认值
+      "regenerator":true, // 默认值
+      "useESModules":true // 默认值为false
+    }
+  ]
+}
