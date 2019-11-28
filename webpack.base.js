@@ -1,14 +1,16 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 将CSS提取到单独的文件中
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const {
   CleanWebpackPlugin,
 } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   // context:process.cwd(),
   // context 是 webpack 编译时的基础目录，入口起点（entry）会相对于此目录查找。process.cwd()即webpack运行所在的目录（等同package.json所在目录）。
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].bbbb.js',
@@ -21,20 +23,7 @@ module.exports = {
     // removeEmptyChunks:true, //删除空的chunks
     // mergeDuplicateChunks:true, // 合并空的chunks
   },
-  mode: 'development',
-  watch: true,
-  watchOptions: {
-    poll: 1000, // 每秒检查一次变动
-    aggregateTimeout: 500, // 防抖延迟，500秒之后输入，
-    ignored: /node_modules/, // ignored: "files/**/*.js"
-  },
-  devServer: {
-    // contentBase: path.resolve(__dirname, 'dist'), // 以dist文件作为根目录，如果没有就访问整个./下的文件及文件夹
-    port: 8080,
-    host: 'localhost',
-    compress: true,
-    proxy: {},
-  },
+
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css'], // 引入模块时可以不使用扩展
     // alias: { // 创建别名 让模块引入变得简单
@@ -42,6 +31,10 @@ module.exports = {
     // }
     // mainFields: ['browser', 'module', 'main'] // 默认值设置 当target 属性值没有指定或者设置为webworker,web时 详见笔记
     // mainFiles: ['index', 'main'], // ？？？？？ 解析目录时要使用的文件名 ---> 在目录中没有package.json时，指明使用该目录中哪个文件，默认是index.js
+  },
+  externals: { // 引用第三方库但不想让webpack打包且不影响以cmd amd或者全局(webpack.ProvidePlugin)的方式使用
+    jquery: 'jQuery',
+    lodash: '_', // key是lodash，是一个包的名字，值是_,是全局的变量名
   },
   module: {
     noParse: /jquery|lodash/, // 不让webpack解析这些正则匹配的文件，原因是这些文件没有import，require，define的调用，可以提高构建性能
@@ -71,7 +64,7 @@ module.exports = {
           loader: 'postcss-loader', // PostCSS 的主要功能只有两个：第一个就是前面提到的把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果
           options: {
             plugins: [
-              require('autoprefixer'),
+              require('autoprefixer'), // eslint-disable-line
             ],
           },
         },
@@ -101,6 +94,28 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css', // name是代码码chunk的名字
+    }),
+    new webpack.ProvidePlugin({ // 配置后无需在import和require引入
+      _: 'lodash',
+      $: 'jquery',
+    }),
+    new HtmlWebpackExternalsPlugin({
+      externals: [{
+        module: 'react',
+        entry: 'https://cdnjs.cloudflare.com/ajax/libs/react/16.10.2/umd/react.production.min.js',
+        global: 'React',
+      },
+      {
+        module: 'react-dom',
+        entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.10.2/umd/react-dom.production.min.js',
+        global: 'ReactDOM',
+      },
+      // {
+      //   module: 'react-router-dom',
+      //   entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.1.2/react-router-dom.min.js',
+      //   global: 'react-router-dom',
+      // }
+      ],
     }),
   ],
 

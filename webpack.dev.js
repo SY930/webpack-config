@@ -43,7 +43,7 @@ module.exports = smw.wrap(smart(base, {
     }],
   },
   plugins: [
-    new BundleAnalyzerPlugin(), // 没有参数则qi
+    new BundleAnalyzerPlugin(), // 没有参数则使用默认配置
     //   {
     //     analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
     //     generateStatsFile: true, // 是否生成stats.json文件

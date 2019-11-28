@@ -7,6 +7,14 @@ class Home extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    // const ary = [1, 2, 3];
+    // _.map(ary, (item) => {
+    //   console.log('item', item);
+    // });
+    // console.log('$', $('#root'));
+  }
+
   render() {
     return <h1>Home</h1>;
   }
