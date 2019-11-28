@@ -1,0 +1,8 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",//把源码转成语法树的工具
+  "env": {
+    "browser": true
+  },
+  "rules": {}
+}

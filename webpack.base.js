@@ -1,20 +1,38 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 将CSS提取到单独的文件中
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {CleanWebpackPlugin} =  require('clean-webpack-plugin');
 
 module.exports = {
   // context:process.cwd(),
   // context 是 webpack 编译时的基础目录，入口起点（entry）会相对于此目录查找。process.cwd()即webpack运行所在的目录（等同package.json所在目录）。
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].bbbb.js',
     // publicPath 并不会对生成文件的路径造成影响，主要是对你的页面里面引入的资源的路径做对应的补全，常见的就是css文件里面引入的图片
     // “publicPath”项则被许多Webpack的插件用于在生产模式下更新内嵌到css、html文件里的url值。
-    publicPath: '/assets',
+    publicPath: '/',
+  },
+  optimization: {
+    // removeAvailableModules: true, // 默认情况下在production模式下启用。parent chunk中解决了的chunk会被删除
+    // removeEmptyChunks:true, //删除空的chunks
+    // mergeDuplicateChunks:true, // 合并空的chunks
   },
   mode: 'development',
-  optimization: {
-    removeAvailableModules: true, // 默认情况下在production模式下启用。
+  watch:true,
+  watchOptions:{
+    poll:1000, //每秒检查一次变动
+    aggregateTimeout:500, //防抖延迟，500秒之后输入，
+    ignored: /node_modules/ //ignored: "files/**/*.js"
+  },
+  devServer: {
+    // contentBase: path.resolve(__dirname, 'dist'), // 以dist文件作为根目录，如果没有就访问整个./下的文件及文件夹
+    port: 8080,
+    host: 'localhost',
+    compress:true,
+    proxy: {
+    }
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.css'], //引入模块时可以不使用扩展
@@ -32,14 +50,14 @@ module.exports = {
         // 用 babel-loader 转换 JavaScript 文件
         // ?cacheDirectory 表示传给 babel-loader 的参数，用于缓存 babel 编译结果加快重新编译速度
         // use: ['babel-loader?cacheDirectory'],
-        use: ['babel-loader'],
+        use: 'babel-loader',
       },
       // {
       //   test: /\.scss$/,
       //   use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       // },
       {
-        text: /\.less$/,
+        test: /\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -61,7 +79,7 @@ module.exports = {
 
       },
       {
-        test:/\.(ttf|svg|eot|woff|woff2|otf)/,
+        test: /\.(ttf|svg|eot|woff|woff2|otf)/,
         use:{
             loader:'url-loader'
         }
@@ -72,6 +90,18 @@ module.exports = {
     }
     ]
   },
-  plugins: [],
-  devServer: {},
+  plugins: [
+//     new CleanWebpackPlugin({
+//       cleanOnceBeforeBuildPatterns: ['**/*'],
+//  }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './index.html',
+      hash:true, //为了避免缓存，可以在产出的资源后面添加hash值
+    }),
+    new MiniCssExtractPlugin({
+      filename:'css/[name].[contenthash].css',//name是代码码chunk的名字
+  }),
+  ],
+
 }
