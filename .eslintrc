@@ -4,5 +4,10 @@
   "env": {
     "browser": true
   },
-  "rules": {}
+  "rules": {
+    "max-len": ["error", 300], // 每行的最大长度
+    "max-classes-per-file": ["error", 4], // File has too many classes (4). Maximum allowed is 1 ==》 import
+    "global-require": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.base.js", "**/*.dev.js", "**/*.prod.js"]}]
+  }
 }

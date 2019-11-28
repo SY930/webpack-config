@@ -1,7 +1,9 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 将CSS提取到单独的文件中
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} =  require('clean-webpack-plugin');
+const {
+  CleanWebpackPlugin,
+} = require('clean-webpack-plugin');
 
 module.exports = {
   // context:process.cwd(),
@@ -20,22 +22,21 @@ module.exports = {
     // mergeDuplicateChunks:true, // 合并空的chunks
   },
   mode: 'development',
-  watch:true,
-  watchOptions:{
-    poll:1000, //每秒检查一次变动
-    aggregateTimeout:500, //防抖延迟，500秒之后输入，
-    ignored: /node_modules/ //ignored: "files/**/*.js"
+  watch: true,
+  watchOptions: {
+    poll: 1000, // 每秒检查一次变动
+    aggregateTimeout: 500, // 防抖延迟，500秒之后输入，
+    ignored: /node_modules/, // ignored: "files/**/*.js"
   },
   devServer: {
     // contentBase: path.resolve(__dirname, 'dist'), // 以dist文件作为根目录，如果没有就访问整个./下的文件及文件夹
     port: 8080,
     host: 'localhost',
-    compress:true,
-    proxy: {
-    }
+    compress: true,
+    proxy: {},
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json', '.css'], //引入模块时可以不使用扩展
+    extensions: ['.js', '.jsx', '.json', '.css'], // 引入模块时可以不使用扩展
     // alias: { // 创建别名 让模块引入变得简单
     //   Utilities: path.resolve(__dirname, 'src/utilities/'), // import Utility from 'Utilities/utility';
     // }
@@ -45,63 +46,62 @@ module.exports = {
   module: {
     noParse: /jquery|lodash/, // 不让webpack解析这些正则匹配的文件，原因是这些文件没有import，require，define的调用，可以提高构建性能
     rules: [{
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        // 用 babel-loader 转换 JavaScript 文件
-        // ?cacheDirectory 表示传给 babel-loader 的参数，用于缓存 babel 编译结果加快重新编译速度
-        // use: ['babel-loader?cacheDirectory'],
-        use: 'babel-loader',
-      },
-      // {
-      //   test: /\.scss$/,
-      //   use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      // },
-      {
-        test: /\.less$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 0, // 默认值0 ??? 记得说过
-            }
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      // 用 babel-loader 转换 JavaScript 文件
+      // ?cacheDirectory 表示传给 babel-loader 的参数，用于缓存 babel 编译结果加快重新编译速度
+      // use: ['babel-loader?cacheDirectory'],
+      use: 'babel-loader',
+    },
+    // {
+    //   test: /\.scss$/,
+    //   use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+    // },
+    {
+      test: /\.less$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 0, // 默认值0 ??? 记得说过
           },
-          {
-            loader: 'postcss-loader', // PostCSS 的主要功能只有两个：第一个就是前面提到的把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果
-            options: {
-              plugins: [
-                require('autoprefixer')
-              ]
-            }
+        },
+        {
+          loader: 'postcss-loader', // PostCSS 的主要功能只有两个：第一个就是前面提到的把 CSS 解析成 JavaScript 可以操作的 AST，第二个就是调用插件来处理 AST 并得到结果
+          options: {
+            plugins: [
+              require('autoprefixer'),
+            ],
           },
-          'less-loaber'
-        ]
-
+        },
+        'less-loaber',
+      ],
+    },
+    {
+      test: /\.(ttf|svg|eot|woff|woff2|otf)/,
+      use: {
+        loader: 'url-loader',
       },
-      {
-        test: /\.(ttf|svg|eot|woff|woff2|otf)/,
-        use:{
-            loader:'url-loader'
-        }
     },
     {
       test: /\.(htm|html)$/,
       loader: 'html-withimg-loader', // ，html中直接使用img标签src加载图片图片会被打包而且路径也处理妥当。npm -> 额外提供html的include子页面功能。
-    }
-    ]
+    },
+    ],
   },
   plugins: [
-//     new CleanWebpackPlugin({
-//       cleanOnceBeforeBuildPatterns: ['**/*'],
-//  }),
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['**/*'],
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './index.html',
-      hash:true, //为了避免缓存，可以在产出的资源后面添加hash值
+      hash: true, // 为了避免缓存，可以在产出的资源后面添加hash值
     }),
     new MiniCssExtractPlugin({
-      filename:'css/[name].[contenthash].css',//name是代码码chunk的名字
-  }),
+      filename: 'css/[name].[contenthash].css', // name是代码码chunk的名字
+    }),
   ],
 
-}
+};
