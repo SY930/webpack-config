@@ -6,6 +6,7 @@ const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin'); // �
 const {
   BundleAnalyzerPlugin,
 } = require('webpack-bundle-analyzer'); // 生成代码分析报告，帮助提升代码质量和网站性能
+const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
 const base = require('./webpack.base');
 
 const smw = new SpeedMeasureWebpackPlugin();
@@ -48,5 +49,8 @@ module.exports = smw.wrap(smart(base, {
     //     analyzerMode: 'disabled', // 不启动展示打包报告的http服务器
     //     generateStatsFile: true, // 是否生成stats.json文件
     // }
+    new DllReferencePlugin({
+      manifest: path.resolve(__dirname, 'dist', 'react.manifest.json'),
+    }),
   ],
 }));
