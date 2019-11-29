@@ -50,7 +50,7 @@ module.exports = smw.wrap(smart(base, {
     //     generateStatsFile: true, // 是否生成stats.json文件
     // }
     new DllReferencePlugin({
-      manifest: path.resolve(__dirname, 'dist', 'react.manifest.json'),
+      manifest: path.resolve(__dirname, 'dist/static-files', 'react.manifest.json'),
     }),
   ],
 }));

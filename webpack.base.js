@@ -1,7 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 将CSS提取到单独的文件中
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+// const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const {
   CleanWebpackPlugin,
 } = require('clean-webpack-plugin');
@@ -85,7 +85,7 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: ['**/*'],
+      cleanOnceBeforeBuildPatterns: ['**/*.dell.js', '!**/*.manifest.json'],
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -99,24 +99,25 @@ module.exports = {
       _: 'lodash',
       $: 'jquery',
     }),
-    new HtmlWebpackExternalsPlugin({
-      externals: [{
-        module: 'react',
-        entry: 'https://cdnjs.cloudflare.com/ajax/libs/react/16.10.2/umd/react.production.min.js',
-        global: 'React',
-      },
-      {
-        module: 'react-dom',
-        entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.10.2/umd/react-dom.production.min.js',
-        global: 'ReactDOM',
-      },
-      // {
-      //   module: 'react-router-dom',
-      //   entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.1.2/react-router-dom.min.js',
-      //   global: 'react-router-dom',
-      // }
-      ],
-    }),
+    // new HtmlWebpackExternalsPlugin({
+    //   externals: [
+    //     // {
+    //     //   module: 'react',
+    //     //   entry: 'https://cdnjs.cloudflare.com/ajax/libs/react/16.10.2/umd/react.production.min.js',
+    //     //   global: 'React',
+    //     // },
+    //     // {
+    //     //   module: 'react-dom',
+    //     //   entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.10.2/umd/react-dom.production.min.js',
+    //     //   global: 'ReactDOM',
+    //     // },
+    //   // {
+    //   //   module: 'react-router-dom',
+    //   //   entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.1.2/react-router-dom.min.js',
+    //   //   global: 'react-router-dom',
+    //   // }
+    //   ],
+    // }),
   ],
 
 };
