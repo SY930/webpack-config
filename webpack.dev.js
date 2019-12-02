@@ -26,7 +26,14 @@ module.exports = smw.wrap(smart(base, {
     compress: true,
     proxy: {},
   },
+  // 缓存模块, 避免在未更改时重建它们。
+  // cache: true,
+  optimization: {
+
+  },
   module: {
+    // 缓存已解决的依赖项, 避免重新解析它们。
+    // unsafeCache: true,
     rules: [{
       // url-loader的引入路径拼接是以output.publicPath+url-loader.publicPath+url-loader.name
       // 当我们是一个单页面应用的时候,我们很可能会将output.public定义为/(根目录),然后直接利用url-loader.name做文章.这样可以既省去url-loader的publicPath,还能省去url-loader的outputPath

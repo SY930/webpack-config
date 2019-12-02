@@ -13,15 +13,16 @@ module.exports = {
   entry: './src/index.jsx',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].bbbb.js',
+    filename: '[name].bundle.js',
+    // chunkFilename: '[name]-[contenthash].js', // 由webpack打包模块后生成的 eg: src下的js -- node_moudoules下的js打包在一起生成的chunk
     // publicPath 并不会对生成文件的路径造成影响，主要是对你的页面里面引入的资源的路径做对应的补全，常见的就是css文件里面引入的图片
     // “publicPath”项则被许多Webpack的插件用于在生产模式下更新内嵌到css、html文件里的url值。
-    publicPath: '/',
+    publicPath: '',
   },
   optimization: {
-    // removeAvailableModules: true, // 默认情况下在production模式下启用。parent chunk中解决了的chunk会被删除
-    // removeEmptyChunks:true, //删除空的chunks
-    // mergeDuplicateChunks:true, // 合并空的chunks
+    removeAvailableModules: true, // 默认情况下在production模式下启用。parent chunk中解决了的chunk会被删除
+    removeEmptyChunks: true, // 删除空的chunks
+    mergeDuplicateChunks: true, // 合并空的chunks
   },
 
   resolve: {
@@ -37,7 +38,7 @@ module.exports = {
     lodash: '_', // key是lodash，是一个包的名字，值是_,是全局的变量名
   },
   module: {
-    noParse: /jquery|lodash/, // 不让webpack解析这些正则匹配的文件，原因是这些文件没有import，require，define的调用，可以提高构建性能
+    noParse: /jquery/, // 不让webpack解析这些正则匹配的文件，原因是这些文件没有import，require，define的调用，可以提高构建性能
     rules: [{
       test: /\.(js|jsx)$/,
       exclude: /node_modules/,
