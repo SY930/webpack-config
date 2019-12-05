@@ -27,7 +27,7 @@ module.exports = smw.wrap(smart(base, {
     proxy: {},
   },
   // 缓存模块, 避免在未更改时重建它们。
-  // cache: true,
+  cache: true,
   optimization: {
 
   },

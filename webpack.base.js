@@ -10,17 +10,21 @@ const webpack = require('webpack');
 module.exports = {
   // context:process.cwd(),
   // context 是 webpack 编译时的基础目录，入口起点（entry）会相对于此目录查找。process.cwd()即webpack运行所在的目录（等同package.json所在目录）。
+  // entry: {
+  //   index: './src/index.jsx',
+  //   chunk1: './src/chunk1.js',
+  // },
   entry: './src/index.jsx',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    filename: '[name].bundle-[contenthash].js',
     // chunkFilename: '[name]-[contenthash].js', // 由webpack打包模块后生成的 eg: src下的js -- node_moudoules下的js打包在一起生成的chunk
     // publicPath 并不会对生成文件的路径造成影响，主要是对你的页面里面引入的资源的路径做对应的补全，常见的就是css文件里面引入的图片
     // “publicPath”项则被许多Webpack的插件用于在生产模式下更新内嵌到css、html文件里的url值。
     publicPath: '',
   },
   optimization: {
-    removeAvailableModules: true, // 默认情况下在production模式下启用。parent chunk中解决了的chunk会被删除
+    removeAvailableModules: true, // module在所有父级中已经存在，会检测出来并删除
     removeEmptyChunks: true, // 删除空的chunks
     mergeDuplicateChunks: true, // 合并空的chunks
   },
