@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "build:dev": "webpack --config webpack.dev.js",
-    "build:prod": "webpack --config webpack.prod.js --env=production",
+    "build:prod": "webpack --config webpack.prod.js",
     "dll": "webpack --config webpack.dll.config.js"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",

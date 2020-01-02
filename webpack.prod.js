@@ -15,6 +15,12 @@ module.exports = smart(base, {
       // new TerserWebpackPlugin({
       //   parallel: true, // 开启多进程并行压缩
       //   cache: true, // 开启缓存 第一次bulid代码时用时Time: 3088ms, 第二次Time: 1178ms 第三次Time: 863ms
+      // extractComments: true,
+      //   terserOptions: {
+      //     output: {
+      //       comments: false,
+      //     },
+      //   },
       // }),
       // new OptimizeCssAssetsWebpackPlugin({
       //   assetNameRegExp: /\.css/g, // 指定要压缩的模块规则

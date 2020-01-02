@@ -13,6 +13,9 @@
         "regenerator": true, // 默认值
         "useESModules": true // 默认值为false
       }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties" //  解决Webpack中提示syntax 'classProperties' isn't currently enabled的错误]
     ]
   ]
 }
