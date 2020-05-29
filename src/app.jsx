@@ -94,16 +94,16 @@ class User extends Component {
   }
 }
 
-// class UserHh extends Component {
-//   constructor() {
-//     super();
-//     this.state = {};
-//   }
+class UserHh extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
-//   render() {
-//     return <h1>UserHHHHH</h1>;
-//   }
-// }
+  render() {
+    return <h1>UserHHHHH</h1>;
+  }
+}
 class App extends Component {
   constructor() { // Component should be written as a pure functioneslint(react/prefer-stateless-function)
     super();

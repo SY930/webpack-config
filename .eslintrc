@@ -6,7 +6,7 @@
   },
   "rules": {
     "max-len": ["error", 300], // 每行的最大长度
-    "max-classes-per-file": ["error", 4], // File has too many classes (4). Maximum allowed is 1 ==》 import
+    "max-classes-per-file": ["error", 6], // File has too many classes (4). Maximum allowed is 1 ==》 import
     // require() 引入时一些风格指南规定，它只能在模块顶层被调用，这样更容易识别依赖关系。例如，当它们在深层次嵌套在函数和其它语句时，就很难识别依赖：
     // "global-require": "off", // Unexpected require().eslint(global-require)关闭强制在模块顶部调用
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.base.js", "**/*.dev.js", "**/*.prod.js", "**/*.config.js"]}],

@@ -1,8 +1,9 @@
-// const webpack = require('webpack');
+const path = require('path');
 const {
   smart,
 } = require('webpack-merge');
-// const TerserWebpackPlugin = require('terser-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
 // const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 // const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
 const base = require('./webpack.base');
@@ -12,16 +13,16 @@ module.exports = smart(base, {
   optimization: {
     minimizer: [
       // 表示放优化的插件
-      // new TerserWebpackPlugin({
-      //   parallel: true, // 开启多进程并行压缩
-      //   cache: true, // 开启缓存 第一次bulid代码时用时Time: 3088ms, 第二次Time: 1178ms 第三次Time: 863ms
-      // extractComments: true,
-      //   terserOptions: {
-      //     output: {
-      //       comments: false,
-      //     },
-      //   },
-      // }),
+      new TerserWebpackPlugin({
+        parallel: true, // 开启多进程并行压缩
+        cache: true, // 开启缓存 第一次bulid代码时用时Time: 3088ms, 第二次Time: 1178ms 第三次Time: 863ms
+        extractComments: true,
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
       // new OptimizeCssAssetsWebpackPlugin({
       //   assetNameRegExp: /\.css/g, // 指定要压缩的模块规则
       //   // cssnano时postCss的css优化和分解插件，cssnano采用很好的css， 并通过许多优化, 以确保最终的生产环境尽可能的小
@@ -74,9 +75,36 @@ module.exports = smart(base, {
           reuseExistingChunk: true,
         },
       },
+      // // 项目公共组件  拆分
+      // common: {
+      //   chunks: 'initial',
+      //   test: /[\\/]node_modules[\\/](lodash|moment|bignumber.js|jquery|antd|uuidjs|socket.io-client|numeral)[\\/]/,
+      //   minSize: 0,
+      // },
+      // // 单独打包react插件
+      // 'react-vendor': {
+      //   chunks: 'initial', // 'initial', 'async', 'all',
+      //   test: /[\\/]node_modules[\\/](prop-types|babel-polyfill)|react|react-[\\/]/,
+      //   // name: 'react-vendor',
+      //   priority: -9,
+      //   minSize: 0,
+      //   enforce: true,
+      // },
+      // // 第三方组件
+      // vendor: {
+      //   test: /node_modules/,
+      //   chunks: 'initial',
+      //   minSize: 0,
+      //   // name: 'vendor',
+      //   priority: -10,
+      //   enforce: true,
+      // },
     },
   },
   plugins: [
+    new DllReferencePlugin({
+      manifest: path.resolve(__dirname, 'dist/static-files', 'react.manifest.json'),
+    }),
     // new ParallelUglifyPlugin({}),
   ],
 });
